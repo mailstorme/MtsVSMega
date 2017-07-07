@@ -56,7 +56,7 @@ namespace MTS_vs_MEGA
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Convert.ToDouble(podMTS1.Text).ToString() + " " + Convert.ToDouble(podMTS2.Text).ToString());
+            //MessageBox.Show((Convert.ToDouble(procKach2.Text) / Convert.ToDouble(100)).ToString());
 
             MessageBox.Show("Укажите результат МТС");
             string MTSfile = new OpenExcelFile().Filenamereturn();
@@ -64,9 +64,9 @@ namespace MTS_vs_MEGA
                 return;
             object[][] MTS = getarray(MTSfile, 1, new int[] { 1,3,4,15,17,21 });
 
-            MessageBox.Show(MTS[4][0].ToString());
+            //MessageBox.Show(MTS[4][0].ToString());
 
-            MessageBox.Show("Укажите результат ММЕГАФОН");
+            MessageBox.Show("Укажите результат МЕГАФОН");
             string MEGAfile = new OpenExcelFile().Filenamereturn();
             if (MEGAfile == "can not open file")
                 return;
@@ -100,7 +100,7 @@ namespace MTS_vs_MEGA
                             "Среднее пополнение МТС, ", "Плохое пополнение МТС, "));
 
                         conditionsMTS.Add(new condition((Convert.ToDouble(MTS[1][ro]) / Convert.ToDouble(MTS[2][ro])) >= (Convert.ToDouble(procKach1.Text) / 100),
-                           (Convert.ToDouble(MTS[1][ro]) / Convert.ToDouble(MTS[2][ro])) > (Convert.ToDouble(procKach2.Text) / 100),
+                           (Convert.ToDouble(MTS[1][ro]) / Convert.ToDouble(MTS[2][ro])) > (Convert.ToDouble(procKach2.Text) / Convert.ToDouble(100)),
                             "Средний процент качества МТС, ", "Плохой процент качества МТС, "));
 
                         conditionsMTS.Add(new condition(DoubleFromProc(MTS[3][ro].ToString()) >= Convert.ToDouble(m2act1.Text),
@@ -352,7 +352,7 @@ namespace MTS_vs_MEGA
         public double DoubleFromProc(string s)
         {
             s = s.Substring(0, s.IndexOf("%"));
-            return Convert.ToDouble(s) / 100;
+            return Convert.ToDouble(s);
         }
 
     }

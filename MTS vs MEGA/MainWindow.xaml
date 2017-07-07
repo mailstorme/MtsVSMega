@@ -8,7 +8,7 @@
         Title="MainWindow" Height="355.833" Width="619.167">
     <Grid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Width="74" Click="Button_Click"/>
-        <TextBox x:Name="podMTS1" HorizontalAlignment="Left" Height="23" Margin="138,16,0,0" TextWrapping="Wrap" Text="0,8" VerticalAlignment="Top" Width="42"/>
+        <TextBox x:Name="podMTS1" HorizontalAlignment="Left" Height="23" Margin="138,16,0,0" TextWrapping="Wrap" Text="0,5" VerticalAlignment="Top" Width="42"/>
         <TextBox x:Name="podMEGA1" HorizontalAlignment="Left" Height="23" Margin="138,42,0,0" TextWrapping="Wrap" Text="0,5" VerticalAlignment="Top" Width="42"/>
         <TextBox x:Name="sredPop1" HorizontalAlignment="Left" Height="23" Margin="138,69,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="42"/>
         <Label Content="Подобие МТС" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"/>
@@ -20,7 +20,7 @@
         <Label Content="Подобие МТС" HorizontalAlignment="Left" Margin="418,16,0,0" VerticalAlignment="Top"/>
         <Label Content="Подобие МЕГА" HorizontalAlignment="Left" Margin="418,42,0,0" VerticalAlignment="Top"/>
         <Label Content="Сред попол. меньше" HorizontalAlignment="Left" Margin="418,68,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="procKach2" HorizontalAlignment="Left" Height="23" Margin="556,101,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="43"/>
+        <TextBox x:Name="procKach2" HorizontalAlignment="Left" Height="23" Margin="556,101,0,0" TextWrapping="Wrap" Text="8" VerticalAlignment="Top" Width="43"/>
         <Label Content="Процент качества" HorizontalAlignment="Left" Margin="418,99,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="blueZone" HorizontalAlignment="Left" Height="23" Margin="548,278,0,0" TextWrapping="Wrap" Text="12" VerticalAlignment="Top" Width="43"/>
         <Label  HorizontalAlignment="Left" Margin="390,267,0,0" VerticalAlignment="Top" Width="154">
