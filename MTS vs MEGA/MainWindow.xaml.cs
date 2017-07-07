@@ -56,147 +56,226 @@ namespace MTS_vs_MEGA
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(DoubleFromProc("20% (88)").ToString());
+            MessageBox.Show(Convert.ToDouble(podMTS1.Text).ToString() + " " + Convert.ToDouble(podMTS2.Text).ToString());
 
-
+            MessageBox.Show("Укажите результат МТС");
             string MTSfile = new OpenExcelFile().Filenamereturn();
             if (MTSfile == "can not open file")
                 return;
-            object[][] MTS = getarray(MTSfile, 1, new int[] { 3, 1 });
+            object[][] MTS = getarray(MTSfile, 1, new int[] { 1,3,4,15,17,21 });
 
+            MessageBox.Show(MTS[4][0].ToString());
+
+            MessageBox.Show("Укажите результат ММЕГАФОН");
             string MEGAfile = new OpenExcelFile().Filenamereturn();
             if (MEGAfile == "can not open file")
                 return;
-            object[][] MEGA = getarray(MTSfile, 1, new int[] { 3, 1 });
+            object[][] MEGA = getarray(MEGAfile, 1, new int[] { 1, 3, 4, 15, 17, 21 });
 
+            MessageBox.Show("Укажите файл анализа");
+            string Spisok = new OpenExcelFile().Filenamereturn();
+            if (Spisok == "can not open file")
+                return;
+            object[][] spisok = getarray(Spisok, 1, new int[] { 1 });
 
-            string[,] NEW = new string[111,4];
+            string[,] NEW = new string[spisok[0].Length,4];
 
             int c = 0;
-            foreach (string name in MTS[0])
+
+            foreach (object sp in spisok[0])
             {
-                List<condition> conditionsMTS = new List<condition>();
-
-                conditionsMTS.Add(new condition(Convert.ToDouble(MTS[c][16]) >= Convert.ToDouble(podMTS1), 
-                    Convert.ToDouble(MTS[c][16]) > Convert.ToDouble(podMTS2), 
-                    "Среднее подобие МТС, ", "Плохое подобие МТС, "));
-
-                conditionsMTS.Add(new condition(Convert.ToDouble(MTS[c][20]) >= Convert.ToDouble(sredPop1),
-                    Convert.ToDouble(MTS[c][20]) > Convert.ToDouble(sredPop2),
-                    "Среднее пополнение МТС, ", "Плохое пополнение МТС, "));
-
-                conditionsMTS.Add(new condition((Convert.ToDouble(MTS[c][2])/ Convert.ToDouble(MTS[c][3])) >= (Convert.ToDouble(procKach1) / 100),
-                   (Convert.ToDouble(MTS[c][2]) / Convert.ToDouble(MTS[c][3])) > (Convert.ToDouble(procKach2) / 100),
-                    "Средний процент качества МТС, ", "Плохой процент качества МТС, "));
-
-                conditionsMTS.Add(new condition(DoubleFromProc(MTS[c][14].ToString()) >= Convert.ToDouble(m2act1),
-                    DoubleFromProc(MTS[c][14].ToString()) > Convert.ToDouble(m2act2),
-                    "Средня 2М активность МТС, ", "Плохая 2М активность МТС, "));
-
-
-                bool find = false;
-                for (int i = 0; i < MEGA[0].Length; i++)
+                bool mtsfind = false;
+                for (int ro = 0; ro < MTS[0].Length; ro ++)
                 {
-                    if (name == MEGA[0][i].ToString())
+                    if (sp.ToString() == MTS[0][ro].ToString())
                     {
-                        List<condition> conditionsMEGA = new List<condition>();
+                        List<condition> conditionsMTS = new List<condition>();
 
-                        conditionsMEGA.Add(new condition(Convert.ToDouble(MEGA[c][16]) >= Convert.ToDouble(podMEGA1),
-                            Convert.ToDouble(MEGA[c][16]) > Convert.ToDouble(podMEGA2),
+                        conditionsMTS.Add(new condition(Convert.ToDouble(MTS[4][ro]) >= Convert.ToDouble(podMTS1.Text),
+                            Convert.ToDouble(MTS[4][ro]) > Convert.ToDouble(podMTS2.Text),
                             "Среднее подобие МТС, ", "Плохое подобие МТС, "));
 
-                        conditionsMEGA.Add(new condition(Convert.ToDouble(MEGA[c][20]) >= Convert.ToDouble(sredPop1),
-                            Convert.ToDouble(MEGA[c][20]) > Convert.ToDouble(sredPop2),
+                        conditionsMTS.Add(new condition(Convert.ToDouble(MTS[5][ro]) >= Convert.ToDouble(sredPop1.Text),
+                            Convert.ToDouble(MTS[5][ro]) > Convert.ToDouble(sredPop2.Text),
                             "Среднее пополнение МТС, ", "Плохое пополнение МТС, "));
 
-                        conditionsMEGA.Add(new condition((Convert.ToDouble(MEGA[c][2]) / Convert.ToDouble(MEGA[c][3])) >= (Convert.ToDouble(procKach1) / 100),
-                           (Convert.ToDouble(MEGA[c][2]) / Convert.ToDouble(MEGA[c][3])) > (Convert.ToDouble(procKach2) / 100),
+                        conditionsMTS.Add(new condition((Convert.ToDouble(MTS[1][ro]) / Convert.ToDouble(MTS[2][ro])) >= (Convert.ToDouble(procKach1.Text) / 100),
+                           (Convert.ToDouble(MTS[1][ro]) / Convert.ToDouble(MTS[2][ro])) > (Convert.ToDouble(procKach2.Text) / 100),
                             "Средний процент качества МТС, ", "Плохой процент качества МТС, "));
 
-                        conditionsMEGA.Add(new condition(DoubleFromProc(MEGA[c][14].ToString()) >= Convert.ToDouble(m2act1),
-                            DoubleFromProc(MEGA[c][14].ToString()) > Convert.ToDouble(m2act2),
-                            "Средня 2М активность, ", "Плохая 2М активность, "));
+                        conditionsMTS.Add(new condition(DoubleFromProc(MTS[3][ro].ToString()) >= Convert.ToDouble(m2act1.Text),
+                            DoubleFromProc(MTS[3][ro].ToString()) > Convert.ToDouble(m2act2.Text),
+                            "Средня 2М активность МТС, ", "Плохая 2М активность МТС, "));
 
 
-                        if (conditionsMTS[0].upcond && conditionsMTS[1].upcond && conditionsMTS[2].upcond && conditionsMTS[3].upcond &&
-                            conditionsMEGA[0].upcond && conditionsMEGA[1].upcond && conditionsMEGA[2].upcond && conditionsMEGA[3].upcond)
+                        bool find = false;
+                        for (int i = 0; i < MEGA[0].Length; i++)
                         {
-                            NEW[c, 2] = "green";
-                        }
-                        else if (!conditionsMTS[0].downcond || !conditionsMTS[1].downcond || !conditionsMTS[2].downcond || !conditionsMTS[3].downcond ||
-                            !conditionsMEGA[0].downcond || !conditionsMEGA[1].downcond || !conditionsMEGA[2].downcond || !conditionsMEGA[3].downcond)
-                        {
-                            NEW[c, 2] = "red";
-                            foreach(condition con in conditionsMTS)
+                            if (MTS[0][ro].ToString() == MEGA[0][i].ToString())
                             {
-                                NEW[c, 4] += (!con.downcond) ? con.downText : "";
-                            }
-                            foreach (condition con in conditionsMEGA)
-                            {
-                                NEW[c, 4] += (!con.downcond) ? con.downText : "";
-                            }
-                            foreach (condition con in conditionsMTS)
-                            {
-                                NEW[c, 4] += (!con.upcond && con.downcond) ? con.medText : "";
-                            }
-                            foreach (condition con in conditionsMEGA)
-                            {
-                                NEW[c, 4] += (!con.upcond && con.downcond) ? con.medText : "";
-                            }
-                        }
-                        else
-                        {
-                            NEW[c, 2] = "yellow";
-                            foreach (condition con in conditionsMTS)
-                            {
-                                NEW[c, 4] += (!con.upcond && con.downcond) ? con.medText : "";
-                            }
-                            foreach (condition con in conditionsMEGA)
-                            {
-                                NEW[c, 4] += (!con.upcond && con.downcond) ? con.medText : "";
+                                List<condition> conditionsMEGA = new List<condition>();
+
+                                conditionsMEGA.Add(new condition(Convert.ToDouble(MEGA[4][i]) >= Convert.ToDouble(podMEGA1.Text),
+                                    Convert.ToDouble(MEGA[4][i]) > Convert.ToDouble(podMEGA2.Text),
+                                    "Среднее подобие МТС, ", "Плохое подобие МТС, "));
+
+                                conditionsMEGA.Add(new condition(Convert.ToDouble(MEGA[5][i]) >= Convert.ToDouble(sredPop1.Text),
+                                    Convert.ToDouble(MEGA[5][i]) > Convert.ToDouble(sredPop2.Text),
+                                    "Среднее пополнение МТС, ", "Плохое пополнение МТС, "));
+
+                                conditionsMEGA.Add(new condition((Convert.ToDouble(MEGA[1][i]) / Convert.ToDouble(MEGA[2][i])) >= (Convert.ToDouble(procKach1.Text) / 100),
+                                   (Convert.ToDouble(MEGA[1][i]) / Convert.ToDouble(MEGA[2][i])) > (Convert.ToDouble(procKach2.Text) / 100),
+                                    "Средний процент качества МТС, ", "Плохой процент качества МТС, "));
+
+                                conditionsMEGA.Add(new condition(DoubleFromProc(MEGA[3][i].ToString()) >= Convert.ToDouble(m2act1.Text),
+                                    DoubleFromProc(MEGA[3][i].ToString()) > Convert.ToDouble(m2act2.Text),
+                                    "Средня 2М активность, ", "Плохая 2М активность, "));
+
+
+                                if (conditionsMTS[0].upcond && conditionsMTS[1].upcond && conditionsMTS[2].upcond && conditionsMTS[3].upcond &&
+                                    conditionsMEGA[0].upcond && conditionsMEGA[1].upcond && conditionsMEGA[2].upcond && conditionsMEGA[3].upcond)
+                                {
+                                    NEW[c, 1] = "green";
+                                }
+                                else if (!conditionsMTS[0].downcond || !conditionsMTS[1].downcond || !conditionsMTS[2].downcond || !conditionsMTS[3].downcond ||
+                                    !conditionsMEGA[0].downcond || !conditionsMEGA[1].downcond || !conditionsMEGA[2].downcond || !conditionsMEGA[3].downcond)
+                                {
+                                    NEW[c, 1] = "red";
+                                    foreach (condition con in conditionsMTS)
+                                    {
+                                        NEW[c, 2] += (!con.downcond) ? con.downText : "";
+                                    }
+                                    foreach (condition con in conditionsMEGA)
+                                    {
+                                        NEW[c, 2] += (!con.downcond) ? con.downText : "";
+                                    }
+                                    foreach (condition con in conditionsMTS)
+                                    {
+                                        NEW[c, 2] += (!con.upcond && con.downcond) ? con.medText : "";
+                                    }
+                                    foreach (condition con in conditionsMEGA)
+                                    {
+                                        NEW[c, 2] += (!con.upcond && con.downcond) ? con.medText : "";
+                                    }
+                                }
+                                else
+                                {
+                                    NEW[c, 1] = "yellow";
+                                    foreach (condition con in conditionsMTS)
+                                    {
+                                        NEW[c, 2] += (!con.upcond && con.downcond) ? con.medText : "";
+                                    }
+                                    foreach (condition con in conditionsMEGA)
+                                    {
+                                        NEW[c, 2] += (!con.upcond && con.downcond) ? con.medText : "";
+                                    }
+                                }
+
+                                find = true;
+                                break;
                             }
                         }
 
-                        find = true;
+
+                        if (!find)
+                        {
+                            NEW[4, 1] += "Продает только МТС!, ";
+                            if (conditionsMTS[0].upcond && conditionsMTS[1].upcond && conditionsMTS[2].upcond && conditionsMTS[3].upcond)
+                            {
+                                NEW[c, 1] = "green mts only";
+                            }
+                            else if (!conditionsMTS[0].downcond || !conditionsMTS[1].downcond || !conditionsMTS[2].downcond || !conditionsMTS[3].downcond)
+                            {
+                                NEW[c, 1] = "red mts only";
+                                foreach (condition con in conditionsMTS)
+                                {
+                                    NEW[c, 2] += (!con.downcond) ? con.downText : "";
+                                }
+                                foreach (condition con in conditionsMTS)
+                                {
+                                    NEW[c, 2] += (!con.upcond && con.downcond) ? con.medText : "";
+                                }
+                            }
+                            else
+                            {
+                                NEW[c, 1] = "yellow mts only";
+                                foreach (condition con in conditionsMTS)
+                                {
+                                    NEW[c, 2] += (!con.upcond && con.downcond) ? con.medText : "";
+                                }
+                            }
+                        }
+                        mtsfind = true;
                         break;
-                    }
-                }
-
-
-                if (!find)
-                {
-                    NEW[4, c] += "Продает только МТС!, ";
-                    if (conditionsMTS[0].upcond && conditionsMTS[1].upcond && conditionsMTS[2].upcond && conditionsMTS[3].upcond)
-                    {
-                        NEW[c, 2] = "green mts only";
-                    }
-                    else if (!conditionsMTS[0].downcond || !conditionsMTS[1].downcond || !conditionsMTS[2].downcond || !conditionsMTS[3].downcond)
-                    {
-                        NEW[c, 2] = "red mts only";
-                        foreach (condition con in conditionsMTS)
-                        {
-                            NEW[c, 4] += (!con.downcond) ? con.downText : "";
-                        }
-                        foreach (condition con in conditionsMTS)
-                        {
-                            NEW[c, 4] += (!con.upcond && con.downcond) ? con.medText : "";
-                        }
-                    }
-                    else
-                    {
-                        NEW[c, 2] = "yellow mts only";
-                        foreach (condition con in conditionsMTS)
-                        {
-                            NEW[c, 4] += (!con.upcond && con.downcond) ? con.medText : "";
-                        }
                     }
                 }
                 c++;
             }
 
+            MessageBox.Show("Укажите файл для вставки");
+
+            Spisok = new OpenExcelFile().Filenamereturn();
+            if (Spisok == "can not open file")
+                return;
+
+            insert(Spisok, NEW, c, 2);
+
+            MessageBox.Show("Конец программы");
+
 
         }
 
+
+        public void insert(string path, object[,] arr, int rows, int col)
+        {
+            #region Открытие Excel
+            var ExcelApp = new Excel.Application();
+            ExcelApp.Visible = false;
+            Excel.Sheets excelsheets;
+            Excel.Worksheet excelworksheet;
+            //Excel.Workbooks workbooks;
+            Excel.Workbook book;
+            Excel.Range range = null;
+
+            book = ExcelApp.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            //book.ActiveSheet.get_Item(1);
+            excelsheets = book.Worksheets;
+            excelworksheet = (Excel.Worksheet)excelsheets.get_Item(1);
+
+            #endregion
+            Process[] List = Process.GetProcessesByName("EXCEL");
+
+            int Columns = excelworksheet.UsedRange.Columns.Count;
+
+            /*
+            range = null;
+            range = excelworksheet.get_Range(R1C1[1] + "1:" + R1C1[col] + "1");
+            range.Value2 = new object[,] { {"Дилер Дистр", "Всего платежей" ,"Хорошие симки за период", "Всего симок в комиссии","кол-во симок >120р в первом месяце" ,"кол-во симок >120р во втором месяце","кол-во симок >120р в третьем месяце",
+             "кол-во симок >120р в 4-6 месяце"  ,"кол-во симок >120р в 7-12 месяце", "6) платежи на комис" ,"7) платежи на отгрузки" ,
+                    "8) хорошие (>120р) симки 1-го пер набл на кол-во отгрузок" ,"9) хорошие (>120р) симки 1,2,3 пер набл на кол-во отгрузок","1м активность","2м активность","3м активность","Подобие","2м активность","тарифы с АП",
+                    "тарифы без АП","Среднее пополнение","Тариф 1","Тариф 2","1м:2м:3м:4+м (ком)","в комиссии | отгрузки за период" } };
+            */
+            range = null;
+            range = excelworksheet.get_Range(R1C1[Columns+1] + "2:" + R1C1[Columns+col+1] + rows.ToString());
+            range.Value2 = arr;
+
+
+            #region Закрытие Excel
+
+            book.Save();
+            book.Close(false, false, false);
+
+            ExcelApp.Quit();
+
+            ExcelApp = null;
+            excelsheets = null;
+            excelworksheet = null;
+            //workbooks = null;
+            book = null;
+            range = null;
+            #endregion
+            CloseProcess(List);
+        }
 
 
         private object[][] getarray(string path, int list, int[] columns) //возвращает массив указаных колонок 
