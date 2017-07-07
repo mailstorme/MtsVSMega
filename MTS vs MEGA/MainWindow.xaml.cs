@@ -78,7 +78,7 @@ namespace MTS_vs_MEGA
                 return;
             object[][] spisok = getarray(Spisok, 1, new int[] { 1 });
 
-            string[,] NEW = new string[spisok[0].Length,4];
+            string[,] NEW = new string[spisok[0].Length,9];
 
             int c = 0;
 
@@ -90,6 +90,14 @@ namespace MTS_vs_MEGA
                     if (sp.ToString() == MTS[0][ro].ToString())
                     {
                         mtsfind = true;
+
+                        NEW[c, 3] = MTS[4][ro].ToString();
+                        NEW[c, 4] = MTS[3][ro].ToString();
+                        NEW[c, 5] = MTS[5][ro].ToString();
+
+                        NEW[c, 6] = "";
+                        NEW[c, 7] = "";
+                        NEW[c, 8] = "";
 
                         List<condition> conditionsMTS = new List<condition>();
 
@@ -115,6 +123,11 @@ namespace MTS_vs_MEGA
                         {
                             if (MTS[0][ro].ToString() == MEGA[0][i].ToString())
                             {
+
+                                NEW[c, 6] = MEGA[4][i].ToString();
+                                NEW[c, 7] = MEGA[3][i].ToString();
+                                NEW[c, 8] = MEGA[4][i].ToString();
+
                                 find = true;
 
                                 bool bluemts = false;
@@ -311,6 +324,15 @@ namespace MTS_vs_MEGA
                     for (int i = 0; i < MEGA[0].Length; i++)
                         if (sp.ToString() == MEGA[0][i].ToString())
                         {
+                            NEW[c, 3] = "";
+                            NEW[c, 4] = "";
+                            NEW[c, 5] = "";
+
+                            NEW[c, 6] = MEGA[4][i].ToString();
+                            NEW[c, 7] = MEGA[3][i].ToString();
+                            NEW[c, 8] = MEGA[4][i].ToString();
+
+
                             NEW[c, 2] += "Продает только МЕГАФОН!, ";
 
                             if (Convert.ToDouble(MEGA[2][i]) < Convert.ToDouble(blueZone.Text))
@@ -377,6 +399,8 @@ namespace MTS_vs_MEGA
                 return;
 
             insert(Spisok, NEW, c, 2);
+
+            color(Spisok);
 
             MessageBox.Show("Конец программы");
 
@@ -511,6 +535,87 @@ namespace MTS_vs_MEGA
         {
             s = s.Substring(0, s.IndexOf("%"));
             return Convert.ToDouble(s);
+        }
+
+        public void color(string path)
+        {
+            #region Открытие Excel
+            var ExcelApp = new Excel.Application();
+            ExcelApp.Visible = false;
+            Excel.Sheets excelsheets;
+            Excel.Worksheet excelworksheet;
+            //Excel.Workbooks workbooks;
+            Excel.Workbook book;
+            Excel.Range range = null;
+
+            book = ExcelApp.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            //book.ActiveSheet.get_Item(1);
+            excelsheets = book.Worksheets;
+            excelworksheet = (Excel.Worksheet)excelsheets.get_Item(1);
+
+            #endregion
+            Process[] List = Process.GetProcessesByName("EXCEL");
+
+            int Column = excelworksheet.UsedRange.Columns.Count;
+            int Rows = excelworksheet.UsedRange.Rows.Count;
+
+            for (int i = 2; i < Rows; i++)
+            {
+                Excel.Range cellRange = (Excel.Range)excelworksheet.Cells[i, Column - 1];
+                if (cellRange.Value!= null)
+                    switch ((cellRange.Value2).ToString())
+                    {
+                        case "blue":                        
+                            cellRange.Interior.ColorIndex = 41;
+                            break;
+                        case "red":
+                            cellRange.Interior.ColorIndex = 3;
+                            break;
+                        case "red mts only":
+                            cellRange.Interior.ColorIndex = 3;
+                            break;
+                        case "red mega only":
+                            cellRange.Interior.ColorIndex =3;
+                            break;
+                        case "yellow":
+                            cellRange.Interior.ColorIndex = 6;
+                            break;
+                        case "yellow mega only":
+                            cellRange.Interior.ColorIndex = 6;
+                            break;
+                        case "yellow mts only":
+                            cellRange.Interior.ColorIndex = 6;
+                            break;
+                        case "green":
+                            cellRange.Interior.ColorIndex = 4;
+                            break;
+                        case "green mts only":
+                            cellRange.Interior.ColorIndex = 10;
+                            break;
+
+                    }
+      
+            }
+
+            range = null;
+            range = excelworksheet.get_Range(R1C1[Column - 1] + "2:" + R1C1[Column -1] + Rows.ToString());
+
+            #region Закрытие Excel
+
+            book.Save();
+            book.Close(false, false, false);
+
+            ExcelApp.Quit();
+
+            ExcelApp = null;
+            excelsheets = null;
+            excelworksheet = null;
+            //workbooks = null;
+            book = null;
+            range = null;
+            #endregion
+            CloseProcess(List);
+
         }
 
     }
