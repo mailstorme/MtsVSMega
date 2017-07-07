@@ -1,1 +1,16 @@
 c:\users\andrey\documents\visual studio 2015\Projects\MTS vs MEGA\MTS vs MEGA\bin\Debug\MTS vs MEGA.exe.config
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\bin\Debug\MTS vs MEGA.exe.config
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\bin\Debug\MTS vs MEGA.exe
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\bin\Debug\MTS vs MEGA.pdb
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA.csprojResolveAssemblyReference.cache
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA.csproj.ResolveComReference.cache
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MainWindow.g.cs
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\App.g.cs
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA_MarkupCompile.cache
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA_MarkupCompile.lref
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MainWindow.baml
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA.g.resources
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS_vs_MEGA.Properties.Resources.resources
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA.csproj.GenerateResource.Cache
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA.exe
+C:\Users\Andrei\Desktop\MTS vs MEGA\MTS vs MEGA\obj\Debug\MTS vs MEGA.pdb
